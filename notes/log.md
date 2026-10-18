@@ -50,3 +50,7 @@
   touches only tracked cars and warns if it ever finds 2 gears again. Removed shift/reset
   diagnostics and the InputSystem reference.
 - v0.3.0: speed readout above the gear display (clone of TextGear) worked; user asked to remove it. v0.4.0 removes it.
+
+## 2026-10-17: Windows confirmed
+
+A Windows player installed MelonLoader v0.7.3 + v0.4.0 per the README and reports it works. README updated: Windows is no longer marked untested. Multiplayer with mixed modded/unmodded players is still unconfirmed.

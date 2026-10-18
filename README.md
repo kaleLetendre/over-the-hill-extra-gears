@@ -18,11 +18,10 @@ legs. The 4H / 4L range switch is untouched and still works on top of all four g
 1st and 2nd are the game's own ratios, unchanged. 3rd = 2nd × step, 4th = 3rd × step,
 with step = 2nd ÷ 1st.
 
-**Status:** works on Linux (Proton), tested with manual shifting.
+**Status:** works on Windows and Linux (Proton), tested with manual shifting.
 
-> **Untested on Windows.** Nothing in this mod is Linux-specific, so it should work the
-> same way, but nobody has tried it yet. Also untested: automatic shifting and
-> multiplayer. [Reports welcome](https://github.com/kaleLetendre/over-the-hill-extra-gears/issues).
+> **Untested:** automatic shifting and multiplayer. In multiplayer, everyone in the
+> session should install the mod. [Reports welcome](https://github.com/kaleLetendre/over-the-hill-extra-gears/issues).
 
 ---
 
@@ -36,7 +35,7 @@ Any controller or keyboard works. Unlike
 this mod needs no special controller setup.
 
 Follow the guide for your system: [Linux](#setup-on-linux-steam--proton) or
-[Windows](#setup-on-windows-untested).
+[Windows](#setup-on-windows).
 
 **Already have MelonLoader v0.7.3 in the game** (e.g. for another mod)? Skip
 straight to [Install the mod](#step-5-install-the-mod).
@@ -120,11 +119,7 @@ Done. You only do all this once. Next time, just start the game.
 
 ---
 
-## Setup on Windows (untested)
-
-> Nobody has tried this on Windows yet. If you do, please
-> [open an issue](https://github.com/kaleLetendre/over-the-hill-extra-gears/issues)
-> and say whether it worked.
+## Setup on Windows
 
 ### Step 1: Install MelonLoader v0.7.3
 
