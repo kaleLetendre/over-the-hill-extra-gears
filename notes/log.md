@@ -58,3 +58,12 @@ A Windows player installed MelonLoader v0.7.3 + v0.4.0 per the README and report
 ## 2026-10-17: v1.0.0
 
 No code changes from v0.4.0. Version bumped to 1.0.0 for the Nexus Mods release, after Windows confirmed working.
+
+## 2026-10-18: multiplayer confirmed, HUD gear report
+
+- Online session: the user hosted on Linux and a friend joined on Windows, both running the mod. Gears worked for both. README updated: multiplayer tested.
+- A Windows player reported the HUD gear readout sometimes showing N in 3rd or 4th, while the gear itself worked.
+  - `ContextUIDrivingModeSelector.SetInsertedGear(gear, low)` has labels for gears -1 to 5, so 3 and 4 can be shown.
+  - `HUDManager.Update` passes `NetworkedVehicleStatus.gearboxGear`, so "N" means that field was 0.
+  - No direct caller of `set_GearboxGear` was found in the dumps.
+  - The log they sent was from a fresh launch, so it doesn't show the problem. A DebugLog session log from when it happens has been asked for.

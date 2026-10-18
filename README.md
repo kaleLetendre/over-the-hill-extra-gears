@@ -18,10 +18,14 @@ legs. The 4H / 4L range switch is untouched and still works on top of all four g
 1st and 2nd are the game's own ratios, unchanged. 3rd = 2nd × step, 4th = 3rd × step,
 with step = 2nd ÷ 1st.
 
-**Status:** works on Windows and Linux (Proton), tested with manual shifting.
+**Status:** works on Windows and Linux (Proton), in single player and online
+multiplayer (host on Linux, client on Windows), tested with manual shifting.
+In multiplayer, everyone in the session should install the mod.
 
-> **Untested:** automatic shifting and multiplayer. In multiplayer, everyone in the
-> session should install the mod. [Reports welcome](https://github.com/kaleLetendre/over-the-hill-extra-gears/issues).
+> **Untested:** automatic shifting.
+> **Known issue:** a player reported the HUD gear readout sometimes showing N while
+> in 3rd or 4th (the gear itself works). Being looked into.
+> [Reports welcome](https://github.com/kaleLetendre/over-the-hill-extra-gears/issues).
 
 ---
 
