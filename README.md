@@ -99,7 +99,7 @@ exactly that name.
 
 Start the game again. In the MelonLoader console window, look for:
 
-    ExtraGears v0.4.0
+    ExtraGears v1.0.0
     ...
     Mods loaded.
 

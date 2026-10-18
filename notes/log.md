@@ -54,3 +54,7 @@
 ## 2026-10-17: Windows confirmed
 
 A Windows player installed MelonLoader v0.7.3 + v0.4.0 per the README and reports it works. README updated: Windows is no longer marked untested. Multiplayer with mixed modded/unmodded players is still unconfirmed.
+
+## 2026-10-17: v1.0.0
+
+No code changes from v0.4.0. Version bumped to 1.0.0 for the Nexus Mods release, after Windows confirmed working.
