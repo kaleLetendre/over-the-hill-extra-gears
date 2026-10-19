@@ -18,6 +18,13 @@ legs. The 4H / 4L range switch is untouched and still works on top of all four g
 1st and 2nd are the game's own ratios, unchanged. 3rd = 2nd × step, 4th = 3rd × step,
 with step = 2nd ÷ 1st.
 
+**Speed limiter.** Every car has a speed limiter (set per engine upgrade) that
+stops it near the top of stock 2nd gear, around 22–27 km/h, so 3rd and 4th
+couldn't rev out. The mod raises each car's limit by how much taller its 4th
+gear is than 2nd (2nd ÷ 4th), which moves it to roughly the top of 4th. For
+example a Workhorse car's limit goes up ×1.8, a Trail car's ×2.8. Engine upgrades
+still raise it further. Turn this off with `RaiseSpeedLimit = false`.
+
 **Status:** works on Windows and Linux (Proton), in single player and online
 multiplayer (host on Linux, client on Windows), tested with manual shifting.
 In multiplayer, everyone in the session should install the mod.
@@ -103,7 +110,7 @@ exactly that name.
 
 Start the game again. In the MelonLoader console window, look for:
 
-    ExtraGears v1.0.0
+    ExtraGears v1.1.0
     ...
     Mods loaded.
 
@@ -197,6 +204,7 @@ closed.** MelonLoader rewrites the file when the game quits.
 | Key | Default | Meaning |
 |---|---|---|
 | `Enabled` | `true` | Add 3rd and 4th gears. Applies to cars spawned after a change |
+| `RaiseSpeedLimit` | `true` | Raise each car's speed limiter so 3rd and 4th can rev out (limit × 2nd ÷ 4th) |
 | `DebugLog` | `false` | Log each car's old and new ratios, and every gear change with its speed |
 
 ## Other mods

@@ -17,6 +17,12 @@ namespace OTH.ExtraGears;
 // upshift then drops the revs by the same proportion the 1->2 shift does, so
 // each car keeps its character.
 //
+// Each car's speed limiter (VPVehicleController.speedControl, set per engine
+// tier) stops it near the top of stock 2nd gear, so 3rd and 4th could never
+// rev out. With RaiseSpeedLimit the limit is scaled by how much taller 4th is
+// than 2nd (g2 / g4), which puts it near the top of 4th instead. Engine
+// upgrades write a new stock limit; the periodic check scales that too.
+//
 // When a car spawns, Photon Fusion's CopyBackingFieldsToState stores its 2-gear
 // settings in network state, and the game keeps restoring them from there.
 // SpawnPatch re-extends right after that call. A cheap periodic check of known
@@ -28,6 +34,14 @@ public class Mod : MelonMod
     private static MelonPreferences_Entry<bool> prefEnabled;
 
     private static MelonPreferences_Entry<bool> prefDebug;
+
+    private static MelonPreferences_Entry<bool> prefRaiseLimit;
+
+    internal static bool RaiseLimit => prefRaiseLimit.Value;
+
+    // Car -> the limit we last set, so a new stock value (engine upgrade) is
+    // spotted and our own value is never scaled twice.
+    private static readonly Dictionary<System.IntPtr, float> limitSet = new();
 
     internal static bool Enabled => prefEnabled.Value;
 
@@ -54,6 +68,7 @@ public class Mod : MelonMod
         MelonPreferences_Category cat = MelonPreferences.CreateCategory("ExtraGears");
         prefEnabled = cat.CreateEntry("Enabled", true, description: "Add 3rd and 4th gears (applies to cars spawned after the change)");
         prefDebug = cat.CreateEntry("DebugLog", false, description: "Log the ratios of each car and every gear change");
+        prefRaiseLimit = cat.CreateEntry("RaiseSpeedLimit", true, description: "Raise each car's speed limiter so 3rd and 4th can rev out (scaled by how much taller 4th is than 2nd)");
     }
 
     // Car setup assets and prefabs, once per scene. Cars spawned from them then
@@ -118,6 +133,7 @@ public class Mod : MelonMod
                 {
                     Log.Warning($"'{vc.name}' was back at {StockGears} gears; re-extended");
                 }
+                ScaleLimit(vc);
             }
             if (Debug)
             {
@@ -174,6 +190,43 @@ public class Mod : MelonMod
             Log.Msg($"{what}: {Ratios(fwd)} -> {Ratios(ext)} (step {F(step)})");
         }
         return true;
+    }
+
+    // Scales the car's speed limit by g2 / g4, once per stock value.
+    internal static void ScaleLimit(VPVehicleController vc)
+    {
+        if (!RaiseLimit || vc == null)
+        {
+            return;
+        }
+        try
+        {
+            SpeedControl.Settings sc = vc.speedControl;
+            Il2CppStructArray<float> fwd = vc.gearbox?.forwardGearRatios;
+            if (sc == null || !sc.speedLimiter || fwd == null || fwd.Length != ModdedGears || !(fwd[3] > 0f))
+            {
+                return;
+            }
+            float now = sc.speedLimit;
+            if (limitSet.TryGetValue(vc.Pointer, out float mine) && Mathf.Approximately(now, mine))
+            {
+                return;
+            }
+            float scale = fwd[1] / fwd[3];
+            if (!(scale > 1f) || !(now > 0f))
+            {
+                return;
+            }
+            float raised = now * scale;
+            sc.speedLimit = raised;
+            limitSet[vc.Pointer] = raised;
+            // speedLimit is in m/s.
+            Log.Msg($"'{vc.name}': speed limit {F(now * 3.6f)} -> {F(raised * 3.6f)} km/h (x{F(scale)})");
+        }
+        catch (System.Exception ex)
+        {
+            Log.Warning($"'{vc.name}': speed limit not raised: {ex.Message}");
+        }
     }
 
     private static string Ratios(Il2CppStructArray<float> a)

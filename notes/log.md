@@ -67,3 +67,13 @@ No code changes from v0.4.0. Version bumped to 1.0.0 for the Nexus Mods release,
   - `HUDManager.Update` passes `NetworkedVehicleStatus.gearboxGear`, so "N" means that field was 0.
   - No direct caller of `set_GearboxGear` was found in the dumps.
   - The log they sent was from a fresh launch, so it doesn't show the problem. A DebugLog session log from when it happens has been asked for.
+
+## 2026-10-18: v1.1.0, speed limit raised
+
+- Nexus comment: the mod helps some cars more than others, because of stock gearing (Workhorse 4th is only 2.4× taller than 1st). Also, the speed limiter (cf. Nexus mod 45) caps the Marshal at about 26 km/h.
+- `EngineTier.speedControl` (`SpeedControl.Settings.speedLimit`, m/s) is set per engine tier. VPP cuts throttle above it, whatever the gear. The stock limit sits near the top of 2nd gear: the Burro shifts 2→3 at about 22 km/h, against a 21.6 km/h limit.
+- The user chose to raise the limit rather than change the gear spacing. `RaiseSpeedLimit` (default true) scales the live `VPVehicleController.speedControl.speedLimit` by g2/g4:
+  - at spawn (in the CopyBackingFieldsToState postfix);
+  - in the 2 s check whenever the value is no longer the one we set (for example, an engine upgrade wrote a new stock value).
+- The engine tier assets are left alone. Copies made from a scaled asset would otherwise get scaled twice.
+- Untested in game.

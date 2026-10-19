@@ -23,6 +23,7 @@ internal static class SpawnPatch
         {
             changed |= Mod.Extend($"'{name}' live gearbox (spawn)", live.settings);
         }
+        Mod.ScaleLimit(__instance);
         // One line per car, whether it was extended here or already had 4 gears
         // from its setup asset.
         if (Mod.Track(__instance) || changed)
